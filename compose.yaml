@@ -1,0 +1,28 @@
+services:
+  textgen-service-backend-oobabooga-2025:
+    image: ${IMAGE_TAG}
+    container_name: ${CONTAINER_NAME}
+    restart: always
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ${MODELS_DIR}:/app/vendor/user_data/models
+      - ${CHARACTERS_DIR}:/app/vendor/user_data/characters
+      - ${VENDOR_DIR}:/app/vendor
+      - ${VENDOR_DIR}/dotfiles/.nv:/root/.nv
+      - ${VENDOR_DIR}/dotfiles/.conda:/root/.conda
+      - ${VENDOR_DIR}/dotfiles/.config:/root/.config
+      - ${VENDOR_DIR}/dotfiles/.cache:/root/.cache
+    ports:
+      - "7860:7860"
+      - "5000:5000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    stdin_open: true
+    tty: true
