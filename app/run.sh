@@ -38,6 +38,10 @@ if [ -z "$RUN_COMMAND" ]; then
   exit 1
 fi
 
+# upgrade transformers package
+echo "Upgrading transformers package..."
+pip install --upgrade transformers
+
 echo "Executing: $RUN_COMMAND"
 cd "$VENDOR_DIR"
 exec bash -c "$RUN_COMMAND"
